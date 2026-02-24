@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cloud Student Management</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>🎓 Cloud Student Management System</h1>
+
+    <div class="dashboard">
+        <div class="card">
+            <h2>Total Students</h2>
+            <p id="studentCount">0</p>
+        </div>
+    </div>
+
+    <div class="form-section">
+        <input type="text" id="name" placeholder="Name">
+        <input type="text" id="roll" placeholder="Roll">
+        <input type="text" id="mobile" placeholder="Mobile">
+        <input type="number" step="0.01" id="cgpa" placeholder="CGPA">
+        <input type="text" id="course" placeholder="Course">
+        <button onclick="addStudent()">Add Student</button>
+    </div>
+
+    <div class="search-section">
+        <input type="text" id="search" placeholder="Search by Name">
+        <button onclick="searchStudent()">Search</button>
+        <button onclick="loadStudents()">Reset</button>
+    </div>
+
+    <div id="studentList" class="student-list"></div>
+
+</div>
+
+<script>
+
+function loadStudents(query="") {
+    fetch("/students?search=" + query)
+    .then(res => res.json())
+    .then(data => {
+        let list = document.getElementById("studentList");
+        list.innerHTML = "";
+        data.forEach(s => {
+            list.innerHTML += `
+                <div class="student-card">
+                    <h3>${s[1]}</h3>
+                    <p><b>Roll:</b> ${s[2]}</p>
+                    <p><b>Mobile:</b> ${s[3]}</p>
+                    <p><b>CGPA:</b> ${s[4]}</p>
+                    <p><b>Course:</b> ${s[5]}</p>
+                    <button onclick="deleteStudent(${s[0]})" class="delete">Delete</button>
+                </div>
+            `;
+        });
+    });
+
+    fetch("/students/count")
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("studentCount").innerText = data.count;
+    });
+}
+
+function addStudent() {
+    let data = {
+    name: document.getElementById("name").value,
+    roll: document.getElementById("roll").value,
+    mobile: document.getElementById("mobile").value,
+    cgpa: parseFloat(document.getElementById("cgpa").value),
+    course: document.getElementById("course").value
+};
+
+    fetch("/students", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(data)
+    }).then(() => {
+        loadStudents();
+        document.querySelectorAll("input").forEach(i => i.value="");
+    });
+}
+
+function deleteStudent(id) {
+    fetch("/students/" + id, { method: "DELETE" })
+    .then(() => loadStudents());
+}
+
+function searchStudent() {
+    let query = document.getElementById("search").value;
+    loadStudents(query);
+}
+
+loadStudents();
+
+</script>
+
+</body>
+</html>

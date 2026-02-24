@@ -1,0 +1,77 @@
+body {
+    margin: 0;
+    font-family: Arial;
+    background: linear-gradient(to right, #0f172a, #1e293b);
+    color: white;
+}
+
+.container {
+    padding: 40px;
+    text-align: center;
+}
+
+h1 {
+    color: #38bdf8;
+}
+
+.dashboard {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.card {
+    background: #1e293b;
+    padding: 20px;
+    border-radius: 12px;
+    width: 200px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+.form-section input {
+    padding: 10px;
+    margin: 5px;
+    border-radius: 6px;
+    border: none;
+}
+
+button {
+    padding: 10px 15px;
+    margin: 5px;
+    border-radius: 6px;
+    border: none;
+    background: #38bdf8;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0ea5e9;
+}
+
+.search-section {
+    margin: 20px 0;
+}
+
+.student-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.student-card {
+    background: #1e293b;
+    padding: 15px;
+    margin: 10px;
+    width: 250px;
+    border-radius: 10px;
+    transition: transform 0.2s;
+}
+
+.student-card:hover {
+    transform: scale(1.05);
+}
+
+.delete {
+    background: crimson;
+}
